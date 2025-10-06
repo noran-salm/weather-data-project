@@ -8,34 +8,40 @@ A full **end-to-end Data Engineering pipeline** that automates weather data coll
 
 .
 ├── README.md
-├── airflow/
-│ └── dags/
-│ └── orchestrator.py
-├── api-request/
-│ ├── api_request.py
-│ ├── transform_data.py
-│ └── insert_records.py
-├── dashboards/
-│ ├── dashboard_export_20251006T190505.zip
-│ └── dashboard_overview.jpg
-├── dbt/
-│ ├── logs/
-│ ├── my_project/
-│ └── profiles.yml
-├── docker/
-│ ├── docker-bootstrap.sh
-│ ├── docker-init.sh
-│ └── superset_config.py
+├── __pycache__
+│   └── api_request.cpython-312.pyc
+├── airflow
+│   └── dags
+├── api-request
+│   ├── __pycache__
+│   ├── api_request.py
+│   ├── insert_records.py
+│   └── transform_data.py
+├── dashboards
+│   ├── dashboard_export_20251006T190505.zip
+│   └── dashboard_overview.jpg
+├── dbt
+│   ├── logs
+│   ├── my_project
+│   └── profiles.yml
+├── docker
+│   ├── docker-bootstrap.sh
+│   ├── docker-init.sh
+│   └── superset_config.py
 ├── docker-compose.yml
-├── postgres/
-│ ├── airflow_init.sql
-│ └── superset_init.sql
-└── venv/
-
-yaml
-Copy code
-
----
+├── logs
+│   └── dbt.log
+├── postgres
+│   ├── airflow_init.sql
+│   └── superset_init.sql
+├── var
+│   └── run
+└── venv
+    ├── bin
+    ├── include
+    ├── lib
+    ├── lib64 -> lib
+    └── pyvenv.cfg
 
 ## ⚙️ Key Components
 
@@ -55,7 +61,7 @@ Copy code
 ### 1️⃣ API Request (Extract)
 
 **File:** `api-request/api_request.py`
-```python
+python
 import requests
 
 def fetch_weather_data(api_url):
