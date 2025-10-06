@@ -1,4 +1,3 @@
-```markdown
 # 🌤️ Weather Data Pipeline Project
 
 A full **end-to-end Data Engineering pipeline** that automates weather data collection, transformation, modeling, and visualization using **Python, DBT, Airflow, Superset, PostgreSQL, and Docker**.
