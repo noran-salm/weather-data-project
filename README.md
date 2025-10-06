@@ -131,7 +131,6 @@ All services should show `healthy` or `running` status.
 |---------|-----|----------|----------|
 | **Airflow** | http://localhost:8080 | `admin` | Check terminal logs |
 | **Superset** | http://localhost:8088 | `admin` | `123456` |
-| **PostgreSQL** | localhost:5432 | `airflow` | `airflow` |
 
 ---
 
@@ -170,10 +169,10 @@ my_project:
       type: postgres
       host: postgres
       port: 5432
-      user: airflow
-      password: airflow
-      dbname: airflow
-      schema: public
+      user: db_user  
+      password: db_password
+      dbname: db
+      schema: dev
       threads: 4
 ```
 
