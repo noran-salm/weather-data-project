@@ -8,8 +8,6 @@ A complete **end-to-end Data Engineering pipeline** that automates **weather dat
 
 ![Project Overview](docs/images/weather-data.png)
 
-**Interactive Dashboard:** [http://127.0.0.1:8088/superset/dashboard/p/RLj1oydXdkB/](http://127.0.0.1:8088/superset/dashboard/p/RLj1oydXdkB/)
-
 This project automatically:
 - Fetches real-time weather data from the **Open-Meteo API**
 - Cleans and transforms it using **Pandas**
@@ -53,15 +51,11 @@ This project automatically:
 ├── lib/
 └── pyvenv.cfg
 
-yaml
-Copy code
-
----
 
 ## 🚀 Quick Start — Run the Full Pipeline
 
 ### 🪄 1. Clone the Repository
-```bash
+bash
 git clone https://github.com/noran-salm/weather-data-project.git
 cd weather-data-project
 🐳 2. Start the Environment with Docker
@@ -87,7 +81,6 @@ Superset	http://localhost:8088	admin / 123456
 
 ⚙️ 4. Initialize Superset (First Time Only)
 bash
-Copy code
 docker exec -it superset_container superset fab create-admin
 docker exec -it superset_container superset db upgrade
 docker exec -it superset_container superset init
@@ -101,9 +94,9 @@ Click Trigger DAG
 
 🟣 Option 2 — Manually
 bash
-Copy code
 docker exec -it airflow_container python /opt/airflow/api-request/insert_records.py
 docker exec -it dbt_container dbt run
+
 📊 6. View Dashboards in Superset
 
 Open http://localhost:8088
@@ -123,12 +116,10 @@ Superset UX	Add city/date filters for better interactivity
 Place your screenshots inside:
 
 bash
-Copy code
 docs/images/
 Example:
 
 bash
-Copy code
 docs/images/weather-data.png
 docs/images/dashboard_trend.png
 Add them to the README using Markdown:
