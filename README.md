@@ -10,7 +10,7 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 
 ## 📊 Live Dashboard Preview
 
-![Dashboard Overview](docs/images/dashboard_overview.png)
+![Dashboard Overview](docs/dashboard/dashboard_overview.jpg)
 
 **Interactive Analytics Dashboard**: [http://127.0.0.1:8088/superset/dashboard/p/RLj1oydXdkB/](http://127.0.0.1:8088/superset/dashboard/p/RLj1oydXdkB/)
 
