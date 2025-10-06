@@ -360,28 +360,6 @@ docker-compose down -v
 ```bash
 docker-compose down --rmi all
 ```
-
----
-
-## 🔄 CI/CD Integration
-
-### GitHub Actions Example
-```yaml
-name: CI/CD Pipeline
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run DBT Tests
-        run: |
-          docker-compose up -d
-          docker exec dbt_container dbt test
-```
-
 ---
 
 ## 📚 Additional Resources
@@ -427,4 +405,3 @@ If this project helped you, please give it a ⭐️!
 
 ---
 
-**Built with ❤️ using modern data engineering tools**
