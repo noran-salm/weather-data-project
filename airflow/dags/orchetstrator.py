@@ -39,24 +39,6 @@ with dag:
         image='ghcr.io/dbt-labs/dbt-postgres:1.9.latest',
         command = 'run',
         working_dir='/usr/app',
-    #     mounts=[
-    #         Mount
-    #         (
-    #             source='/home/noran/repos/weather-data-project/dbt/my_project',
-    #             target='/usr/app',
-    #             type='bind'
-    #         ),
-    #         Mount
-    #         (
-    #             source='/home/noran/repos/weather-data-project/dbt/profiles.yml',
-    #             target='/root/.dbt/profiles.yml',
-    #             type='bind'
-    #         )
-    #     ],
-    #     network_mode='weather-data-project_my_network',
-    #     docker_url='unix:///var/run/docker.sock',
-    #     auto_remove='success'
-    # )
 
         mounts=[
             Mount(

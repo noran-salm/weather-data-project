@@ -1,4 +1,3 @@
-# api-request/transform_data.py
 import pandas as pd
 
 def transform_weather_data(data, city="New York"):
