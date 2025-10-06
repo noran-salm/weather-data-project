@@ -1,0 +1,86 @@
+# version: 2
+
+# sources:
+#   - name: dev
+#     database: db
+#     schema: dev
+#     tables:
+#       - name: raw_weather_data
+#         description: "Raw weather data table"
+#         columns:
+#           - name: id
+#             description: "Primary key (SERIAL)"
+#           - name: city
+#             description: "City name"
+#           - name: time
+#             description: "Timestamp of the measurement"
+#           - name: temperature
+#             description: "Temperature in Celsius"
+#           - name: wind_speed
+#             description: "Wind speed in km/h"
+#           - name: humidity
+#             description: "Humidity percentage"
+#           - name: pressure
+#             description: "Atmospheric pressure in hPa"
+#           - name: cloudcover
+#             description: "Cloud coverage in %"
+#           - name: precipitation
+#             description: "Precipitation in mm"
+#           - name: dewpoint
+#             description: "Dew point in Celsius"
+#           - name: weathercode
+#             description: "Weather condition code (integer)"
+#           - name: inserted_at
+#             description: "Record insertion timestamp"
+#           - name: utc_offset
+#             description: "UTC offset for the record"
+version: 2
+
+sources:
+  - name: dev
+    database: db
+    schema: dev
+    tables:
+      - name: raw_weather_data
+        description: "Raw weather data collected from API"
+        columns:
+          - name: id
+            description: "Primary key for each record (SERIAL)"
+            tests:
+              - not_null
+              - unique
+
+          - name: city
+            description: "City name where the measurement was taken"
+            tests:
+              - not_null
+
+          - name: temperature
+            description: "Temperature in Celsius"
+
+          - name: wind_speed
+            description: "Wind speed in km/h"
+
+          - name: humidity
+            description: "Humidity percentage (0–100%)"
+
+          - name: pressure
+            description: "Atmospheric pressure in hPa"
+
+          - name: cloudcover
+            description: "Cloud coverage percentage (0–100%)"
+
+          - name: precipitation
+            description: "Precipitation in mm"
+
+          - name: dewpoint
+            description: "Dew point in Celsius"
+
+          - name: weathercode
+            description: "Weather condition code (integer, represents weather type)"
+
+          - name: weather_time_local
+            description: "Local timestamp when weather data was recorded"
+
+          - name: inserted_at_local
+            description: "Timestamp when record was inserted into the database"
