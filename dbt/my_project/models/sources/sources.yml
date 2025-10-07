@@ -1,39 +1,3 @@
-# version: 2
-
-# sources:
-#   - name: dev
-#     database: db
-#     schema: dev
-#     tables:
-#       - name: raw_weather_data
-#         description: "Raw weather data table"
-#         columns:
-#           - name: id
-#             description: "Primary key (SERIAL)"
-#           - name: city
-#             description: "City name"
-#           - name: time
-#             description: "Timestamp of the measurement"
-#           - name: temperature
-#             description: "Temperature in Celsius"
-#           - name: wind_speed
-#             description: "Wind speed in km/h"
-#           - name: humidity
-#             description: "Humidity percentage"
-#           - name: pressure
-#             description: "Atmospheric pressure in hPa"
-#           - name: cloudcover
-#             description: "Cloud coverage in %"
-#           - name: precipitation
-#             description: "Precipitation in mm"
-#           - name: dewpoint
-#             description: "Dew point in Celsius"
-#           - name: weathercode
-#             description: "Weather condition code (integer)"
-#           - name: inserted_at
-#             description: "Record insertion timestamp"
-#           - name: utc_offset
-#             description: "UTC offset for the record"
 version: 2
 
 sources:
