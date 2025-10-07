@@ -12,8 +12,6 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 
 ![Dashboard Overview](docs/dashboard/dashboard_overview.jpg)
 
-**Interactive Analytics Dashboard**: [http://127.0.0.1:8088/superset/dashboard/p/RLj1oydXdkB/](http://127.0.0.1:8088/superset/dashboard/p/RLj1oydXdkB/)
-
 ### Key Metrics & Visualizations
 - 🌡️ Real-time temperature and humidity trends
 - 🌬️ Wind speed and atmospheric pressure analysis
@@ -47,41 +45,43 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 | **Visualization** | Apache Superset | BI dashboards and analytics |
 | **Containerization** | Docker & Docker Compose | Environment consistency |
 | **API** | Open-Meteo API | Weather data source |
-| **Language** | Python 3.8+ | ETL scripts |
+| **Language** | Python 3.8+ | ELT scripts |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-weather-data-project/
+.
+├── README.md
 ├── airflow/
-│   └── dags/
-│       └── weather_pipeline_dag.py    # Orchestration logic
+│ └── dags/
 ├── api-request/
-│   ├── api_request.py                 # API client
-│   ├── transform_data.py              # Data cleaning
-│   └── insert_records.py              # Database loader
+│ ├── api_request.py
+│ ├── insert_records.py
+│ └── transform_data.py
 ├── dbt/
-│   ├── my_project/
-│   │   ├── models/
-│   │   │   ├── staging/               # Raw data models
-│   │   │   └── marts/                 # Business logic models
-│   │   ├── tests/                     # Data quality tests
-│   │   └── dbt_project.yml
-│   └── profiles.yml                   # DBT connection config
+│ ├── my_project/
+│ ├── logs/
+│ └── profiles.yml
 ├── docker/
-│   ├── docker-bootstrap.sh            # Initialization script
-│   ├── docker-init.sh                 # Service setup
-│   └── superset_config.py             # Superset configuration
-├── postgres/
-│   ├── airflow_init.sql               # Airflow metadata DB
-│   └── superset_init.sql              # Superset metadata DB
+│ ├── docker-bootstrap.sh
+│ ├── docker-init.sh
+│ └── superset_config.py
+├── docker-compose.yml
 ├── docs/
-│   └── images/                        # Documentation assets
-├── docker-compose.yml                 # Multi-container setup
-├── requirements.txt                   # Python dependencies
-└── README.md
+│ ├── dashboard/
+│ └── images/
+│ └── weather-data.png
+├── logs/
+│ └── dbt.log
+├── postgres/
+│ ├── airflow_init.sql
+│ └── superset_init.sql
+└── venv/
+├── bin/
+├── lib/
+└── pyvenv.cfg
 ```
 
 ---
@@ -108,11 +108,11 @@ docker-compose up --build -d
 ```
 
 **Services Starting:**
-- PostgreSQL (port 5432)
-- Apache Airflow Webserver (port 8080)
+- PostgreSQL 
+- Apache Airflow Webserver 
 - Apache Airflow Scheduler
 - DBT Container
-- Apache Superset (port 8088)
+- Apache Superset 
 
 ⏱️ **Wait 2-3 minutes** for services to initialize completely.
 
@@ -200,9 +200,9 @@ docker exec -it dbt_container dbt test --project-dir /dbt/my_project
 ```
 
 ### Option C: Scheduled Execution
-The DAG runs automatically based on the schedule defined in `weather_pipeline_dag.py`:
+The DAG runs automatically based on the schedule defined in `orchetstrator.py`:
 ```python
-schedule_interval='@hourly'  # Adjust as needed
+schedule=timedelta(minutes=5)  # Adjust as needed
 ```
 
 ---
@@ -235,63 +235,7 @@ docker exec -it dbt_container dbt test --project-dir /dbt/my_project
 
 ---
 
-## 📈 Performance Optimization
-
-### Database Indexing
-```sql
--- Add indexes for frequent queries
-CREATE INDEX idx_weather_city ON weather_data(city);
-CREATE INDEX idx_weather_time ON weather_data(weather_time_local);
-CREATE INDEX idx_weather_city_time ON weather_data(city, weather_time_local);
-```
-
-### DBT Incremental Models
-```sql
--- models/staging/stg_weather_incremental.sql
-{{ config(materialized='incremental', unique_key='id') }}
-
-SELECT * FROM {{ source('raw', 'weather_data') }}
-{% if is_incremental() %}
-WHERE weather_time_local > (SELECT MAX(weather_time_local) FROM {{ this }})
-{% endif %}
-```
-
-### API Rate Limiting
-```python
-# api-request/api_request.py
-import time
-from functools import wraps
-
-def rate_limit(max_per_minute=60):
-    min_interval = 60.0 / max_per_minute
-    def decorator(func):
-        last_called = [0.0]
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            elapsed = time.time() - last_called[0]
-            wait = min_interval - elapsed
-            if wait > 0:
-                time.sleep(wait)
-            result = func(*args, **kwargs)
-            last_called[0] = time.time()
-            return result
-        return wrapper
-    return decorator
-```
-
----
-
 ## 🔔 Monitoring & Alerts
-
-### Configure Airflow Email Alerts
-```python
-# airflow/dags/weather_pipeline_dag.py
-default_args = {
-    'email': ['your-email@example.com'],
-    'email_on_failure': True,
-    'email_on_retry': False,
-}
-```
 
 ### View Logs
 ```bash
