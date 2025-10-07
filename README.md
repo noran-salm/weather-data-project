@@ -23,7 +23,7 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 
 ## 🏗️ Architecture Overview
 
-![Architecture Diagram](docs/images/weather-data.png)
+![Architecture Diagram](docs/images/architecture_overview.png)
 
 ### Data Flow
 1. **Extract**: Fetch real-time weather data from Open-Meteo API
