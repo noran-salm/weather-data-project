@@ -1,0 +1,10 @@
+# Enforce LF endings for Linux-related files
+*.sh text eol=lf
+*.bash text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Optional: enforce LF for Python and configs
+*.py text eol=lf
+*.env text eol=lf
