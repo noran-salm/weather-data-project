@@ -4,7 +4,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 
-A production-ready, end-to-end data engineering pipeline that automates weather data collection, transformation, modeling, and visualization. Built with modern data stack: **Apache Airflow**, **DBT**, **PostgreSQL**, **Docker**, and **Apache Superset**.
+A **production-ready, end-to-end weather data engineering pipeline** that automates extraction, transformation, modeling, and visualization. Built using **Airflow**, **DBT**, **PostgreSQL**, **Docker**, and **Superset**.  
 
 ---
 
@@ -13,11 +13,11 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 ![Dashboard Overview](docs/dashboard/dashboard_overview.jpg)
 
 ### Key Metrics & Visualizations
-- 🌡️ Real-time temperature and humidity trends
-- 🌬️ Wind speed and atmospheric pressure analysis
-- ☁️ Cloud cover and precipitation monitoring
-- 📈 Multi-dimensional correlation heatmaps
-- 📊 Dynamic KPI gauges and time-series charts
+- 🌡️ Temperature & humidity trends (hourly/daily)
+- 🌬️ Wind speed & atmospheric pressure analysis
+- ☁️ Cloud cover & precipitation monitoring
+- 📈 Correlation heatmaps
+- 📊 Dynamic KPI gauges & time-series charts
 
 ---
 
@@ -25,13 +25,14 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 
 ![Architecture Diagram](docs/images/architecture_overview.png)
 
-### Data Flow
-1. **Extract**: Fetch real-time weather data from Open-Meteo API
-2. **Transform**: Clean and standardize data using Pandas
-3. **Load**: Persist to PostgreSQL database
-4. **Model**: Transform with DBT (staging → marts)
-5. **Orchestrate**: Schedule and monitor via Apache Airflow
-6. **Visualize**: Interactive dashboards in Apache Superset
+**Data Flow**:
+
+1. **Extract**: Fetch real-time weather data from [Open-Meteo API](https://open-meteo.com/en/docs)  
+2. **Transform**: Clean & standardize using Pandas  
+3. **Load**: Persist to PostgreSQL database  
+4. **Model**: DBT transformations (staging → marts)  
+5. **Orchestrate**: Schedule & monitor via Airflow DAGs  
+6. **Visualize**: Interactive dashboards in Superset  
 
 ---
 
@@ -39,13 +40,13 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 
 | Component | Technology | Purpose |
 |-----------|-----------|---------|
-| **Orchestration** | Apache Airflow 2.x | Workflow automation and scheduling |
-| **Data Transformation** | DBT Core | SQL-based modeling and testing |
-| **Database** | PostgreSQL 14+ | Data warehouse |
-| **Visualization** | Apache Superset | BI dashboards and analytics |
-| **Containerization** | Docker & Docker Compose | Environment consistency |
-| **API** | Open-Meteo API | Weather data source |
-| **Language** | Python 3.8+ | ELT scripts |
+| Orchestration | Apache Airflow 2.x | Workflow automation & scheduling |
+| Transformation | DBT Core | SQL-based modeling & testing |
+| Database | PostgreSQL 14+ | Data warehouse |
+| Visualization | Apache Superset 3.x | BI dashboards |
+| Containerization | Docker & Compose | Environment consistency |
+| API | Open-Meteo API | Weather data source |
+| Language | Python 3.8+ | ELT scripts |
 
 ---
 
@@ -54,37 +55,68 @@ A production-ready, end-to-end data engineering pipeline that automates weather 
 ```
 .
 ├── README.md
-├── airflow/
-│ └── dags/
-├── api-request/
-│ ├── api_request.py
-│ ├── insert_records.py
-│ └── transform_data.py
-├── dbt/
-│ ├── my_project/
-│ ├── logs/
-│ └── profiles.yml
-├── docker/
-│ ├── docker-bootstrap.sh
-│ ├── docker-init.sh
-│ └── superset_config.py
+├── __pycache__
+│   └── api_request.cpython-312.pyc
+├── airflow
+│   └── dags
+├── api-request
+│   ├── __pycache__
+│   ├── api_request.py
+│   ├── insert_records.py
+│   └── transform_data.py
+├── dbt
+│   ├── dbt_internal_packages
+│   ├── dbt_project.yml
+│   ├── logs
+│   ├── my_project
+│   ├── profiles.yml
+│   └── target
+├── docker
+│   ├── docker-bootstrap.sh
+│   ├── docker-init.sh
+│   └── superset_config.py
 ├── docker-compose.yml
-├── docs/
-│ ├── dashboard/
-│ └── images/
-│ └── weather-data.png
-├── logs/
-│ └── dbt.log
-├── postgres/
-│ ├── airflow_init.sql
-│ └── superset_init.sql
-└── venv/
-├── bin/
-├── lib/
-└── pyvenv.cfg
+├── docs
+│   ├── dashboard
+│   └── images
+├── postgres
+│   ├── airflow_init.sql
+│   └── superset_init.sql
+└── venv
+    ├── bin
+    ├── lib
+    ├── lib64
+    └── pyvenv.cfg
 ```
-
 ---
+
+## ⚠️ LF / CRLF Line Endings Issue (Windows)
+
+Previously, working on Windows caused issues with Git and Docker due to inconsistent line endings (CRLF vs LF).  
+
+✅ **Solution Implemented:**
+- Created a temporary branch `bugs_LF_CRLF` to fix all line endings.
+- Normalized all files to LF for cross-platform compatibility.
+- Merged the fix back into `main`.
+- Configured Git to handle line endings automatically:
+  ```bash
+  git config --global core.autocrlf true  # For Windows users
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Docker Desktop v20.10+  
+- Docker Compose v2.0+  
+- 8GB RAM minimum  
+- Available ports: 8080 (Airflow), 8088 (Superset), 5432 (PostgreSQL)
+
+### Installation
+
+#### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/noran-salm/weather-data-project.git
+cd weather-data-project
 
 ## 🚀 Getting Started
 
@@ -333,18 +365,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👤 Author
+## 👤 About the Author
 
-**Noran Salm**
+**Noran Salm** – Data & Software Engineering Enthusiast  
 
-- GitHub: [@noran-salm](https://github.com/noran-salm)
-- LinkedIn: [Connect with me](https://www.linkedin.com/in/noran-salm)
+- GitHub: [@noran-salm](https://github.com/noran-salm)  
+- LinkedIn: [Connect with me](https://www.linkedin.com/in/noran-salm)  
+- Passionate about building scalable data pipelines, automation, and modern analytics solutions.  
+- Actively contributing to open-source projects and exploring cloud/data engineering tools like Airflow, DBT, PostgreSQL, and Azure.  
+
+⭐ If this project helped you, feel free to give it a star on GitHub!
+
 
 ---
-
-## ⭐ Show Your Support
-
-If this project helped you, please give it a ⭐️!
-
----
-
