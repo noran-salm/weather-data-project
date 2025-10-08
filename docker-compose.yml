@@ -1,11 +1,7 @@
 x-superset-user: &superset-user root
 x-superset-volumes: &superset-volumes
-  # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
   - ./docker:/app/docker
-#  - ./superset:/app/superset
   - ./docker/superset_config.py:/app/pythonpath/superset_config.py
-#  - ./superset-core:/app/superset-core
-#  - superset_data:/app/data
 
 services:
   db:
@@ -19,7 +15,6 @@ services:
       POSTGRES_PASSWORD: db_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    #- ./postgres/data:/var/lib/postgresql/data
       - ./postgres/airflow_init.sql:/docker-entrypoint-initdb.d/airflow_init.sql
       - ./postgres/superset_init.sql:/docker-entrypoint-initdb.d/superset_init.sql
     healthcheck:
@@ -37,13 +32,16 @@ services:
     environment:
       AIRFLOW_DATABASE_SQL_ALCHEMY_CONN: postgres+psycopg2://airflow:airflow@db:5432/airflow_db
       AIRFLOW__WEBSERVER__AUTHENTICATE: "False"
+      # Use PWD (present working directory) which is automatically set by docker-compose
+      # This gets the absolute path of the directory containing docker-compose.yml
+      HOST_PROJECT_PATH: ${PWD}
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./api-request:/opt/airflow/api-request
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./dbt:/opt/airflow/dbt 
+      - ./dbt:/opt/airflow/dbt
     group_add:
-      - '1001'  
+      - '1001'
     depends_on:
       db:
         condition: service_healthy
@@ -51,14 +49,13 @@ services:
       - my-network
     command: >
       bash -c "airflow db migrate && airflow standalone"
-      
+
   dbt:
     container_name: dbt_container
     image: ghcr.io/dbt-labs/dbt-postgres:1.9.latest
     volumes:
-      - ./dbt/my_project:/usr/app
-      - ./dbt:/root/.dbt
-     # - ./dbt/profiles.yml:/root/.dbt/profiles.yml
+      - ./dbt/my_project:/usr/app 
+      - ./dbt/profiles.yml:/root/.dbt/profiles.yml
     working_dir: /usr/app
     environment:
       DBT_PROFILES_DIR: "/root/.dbt"
@@ -74,7 +71,7 @@ services:
     container_name: superset_init
     command: ["/app/docker/docker-init.sh"]
     env_file:
-      - path: docker/.env # default
+      - path: docker/.env
         required: true
     depends_on:
       db:
@@ -86,7 +83,6 @@ services:
     environment:
       SUPERSET_LOAD_EXAMPLES: "no"
       SUPERSET_LOG_LEVEL: "${SUPERSET_LOG_LEVEL:-info}"
-      #SUPERSET__SQLALCHEMY_EXAMPLES_URI: "duckdb:////app/data/examples.duckdb"
       DATABASE_DB: "superset_db"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U db_user -d db"]
@@ -97,7 +93,7 @@ services:
 
   superset:
     env_file:
-      - path: docker/.env # default
+      - path: docker/.env
         required: true
     image: apache/superset:3.0.0-py310
     container_name: superset_app
@@ -112,11 +108,10 @@ services:
     volumes: *superset-volumes
     environment:
       SUPERSET_LOG_LEVEL: "${SUPERSET_LOG_LEVEL:-info}"
-      #SUPERSET__SQLALCHEMY_EXAMPLES_URI: "duckdb:////app/data/examples.duckdb"
       DATABASE_DB: "superset_db"
     networks:
       - my-network
-      
+
   redis:
     image: redis:7
     container_name: superset_cache
@@ -127,7 +122,7 @@ services:
       - redis:/data
     networks:
       - my-network
-          
+
 networks:
   my-network:
     name: weather-data-project_my_network
@@ -135,8 +130,4 @@ networks:
 
 volumes:
   redis:
-    external: false
-  postgres_data:  
-
-
- 
+  postgres_data:

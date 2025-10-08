@@ -63,6 +63,7 @@ def insert_data(cursor, df):
             row.get("utc_offset")          
         ))
 
+
 def main():
     print("Fetching weather data from Open-Meteo API ...")
     data = fetch_weather_data()
